@@ -1,0 +1,23 @@
+name: 'Update: jszip'
+
+on:
+  schedule:
+    - cron: '0 0 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    uses: ./.github/workflows/reusable-update-npm.yaml
+    secrets: inherit
+    with:
+      npm_package: jszip
+      target_dir: jszip
+      branch_name: auto-update/jszip
+      extract_script: |
+        mkdir -p "$TARGET_DIR"
+        # Only copy the minified bundle
+        cp "$PKG_DIR/dist/jszip.min.js" "$TARGET_DIR/jszip.min.js"

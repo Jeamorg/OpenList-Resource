@@ -1,0 +1,23 @@
+name: 'Update: exceljs'
+
+on:
+  schedule:
+    - cron: '0 0 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    uses: ./.github/workflows/reusable-update-npm.yaml
+    secrets: inherit
+    with:
+      npm_package: exceljs
+      target_dir: exceljs
+      branch_name: auto-update/exceljs
+      extract_script: |
+        mkdir -p "$TARGET_DIR"
+        # Only copy the minified bundle
+        cp "$PKG_DIR/dist/exceljs.min.js" "$TARGET_DIR/exceljs.min.js"
